@@ -1,8 +1,9 @@
-from flask import Flask, request, send_file, jsonify
 import os
+from flask import Flask, request, send_file, jsonify
 from processor import process_files
 
 app = Flask(__name__)
+
 UPLOAD_FOLDER = 'uploads'
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
@@ -33,4 +34,5 @@ def download_file():
         return jsonify({"error": str(e)}), 500
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    port = int(os.environ.get('PORT', 5000))  # Use Render's PORT or default to 5000
+    app.run(host='0.0.0.0', port=port, debug=True)
